@@ -12,6 +12,21 @@ $accessTokenSecret = 'w0J08K3XutY9Qp2ZaIucml1oBnnWn4qcVaC6gwjrPADcE';
 // Create object
 $tweet = new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
 
+
+$url = 'http://echo.jsontest.com/key/value/one/two';
+$content = file_get_contents($url);
+$json = json_decode($content, true);
+print_r($json['data']);
+exit();
+foreach($json['data']['weather'] as $item) {
+    print $item['date'];
+    print ' - ';
+    print $item['weatherDesc'][0]['value'];
+    print ' - ';
+    print '<img src="' . $item['weatherIconUrl'][0]['value'] . '" border="0" alt="" />';
+    print '<br>';
+}
+
 // Set status message
 $tweetMessage = 'This is a tweet to my Twitter account via PHP.';
 
