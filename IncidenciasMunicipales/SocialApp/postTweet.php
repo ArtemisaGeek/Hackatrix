@@ -20,7 +20,12 @@ $json = json_decode($content, true);
 foreach($json['results'] as $item) {
 	if(strlen($item['descripcion']) <= 120){
 		$tweetMessage = '#AlertaMunicipal ' . $item['descripcion']  ;
-	    $tweet->post('statuses/update', array('status' => $tweetMessage));
+		$image = $item['foto']['url'];
+	    $tweet->post('statuses/update', array(
+	    	'media'  => "@{$image};type=image/jpeg;filename={$image}",
+	    	'status' => $tweetMessage
+	    	)
+	    );
 	    echo 'Se han realizado los Twits <br>';
 	}else{
 		echo 'El Tweet supera los 140 caracteres<br>';
