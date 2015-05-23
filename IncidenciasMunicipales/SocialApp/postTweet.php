@@ -13,14 +13,16 @@ $accessTokenSecret = 'w0J08K3XutY9Qp2ZaIucml1oBnnWn4qcVaC6gwjrPADcE';
 $tweet = new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
 
 
-$url = 'http://incidencia.wratix.com/api';
-$content = file_get_contents($url);
-$json = json_decode($content, true);
+// $url = 'http://incidencia.wratix.com/api';
+// $content = file_get_contents($url);
+// $json = json_decode($content, true);
 
-foreach($json['results'] as $item) {
-	if(strlen($item['descripcion']) <= 120){
-		$tweetMessage = '#AlertaMunicipal ' . $item['descripcion']  ;
-		$image = $item['foto']['url'];
+if(!empty($_POST['descripcion']) and !empty($_POST['imagen'])){
+	$descripcion = $_POST['descripcion'];
+	$image 		 = $_POST['imagen'];
+
+	if(strlen($descripcion) <= 120){
+		$tweetMessage = '#AlertaMunicipal ' . $descripcion  ;
 	    $tweet->post('statuses/update', array(
 	    	'media'  => "@{$image};type=image/jpeg;filename={$image}",
 	    	'status' => $tweetMessage
@@ -30,15 +32,19 @@ foreach($json['results'] as $item) {
 	}else{
 		echo 'El Tweet supera los 140 caracteres<br>';
 	}
+}else{
+	echo 'necesito un post';
+}
+// foreach($json['results'] as $item) {
 	
-	// if(strlen($tweetMessage) <= 140)
-	// {
-	//     // Post the status message
-	// }
+// 	// if(strlen($tweetMessage) <= 140)
+// 	// {
+// 	//     // Post the status message
+// 	// }
 
 	
     
-}
+// }
  
 // Set status message
 //$tweetMessage = 'This is a tweet to my Twitter account via PHP.';
